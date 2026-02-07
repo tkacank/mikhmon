@@ -32,10 +32,9 @@ if (!isset($_SESSION["mikhmon"])) {
     // use number for the month instead of string "month name"
     $numidbl = date("mY", $timestamp);
 
-    $date = DateTime::createFromFormat('M/d/Y', $idhr);
-    $idhr2 = $date->format('Y-m-d');
-
 	if ($idhr != ""){
+        $date = DateTime::createFromFormat('M/d/Y', $idhr);
+        $idhr2 = $date->format('Y-m-d');
 		$_SESSION['report'] = "&idhr=".$idhr;
 	} elseif ($idbl != ""){
 		$_SESSION['report'] = "&idbl=".$idbl;
