@@ -365,7 +365,7 @@ if (!isset($_SESSION["mikhmon"])) {
                           }else{
                             echo "<div id='loader' ><i><span> <i class='fa fa-circle-o-notch fa-spin'></i> ". $_processing." </i></div>";
                           }
-                          ?>                       
+                          ?>
                         </div>
                     </span>
                 </div>

@@ -25,6 +25,16 @@ if (!isset($_SESSION["mikhmon"])) {
 	$idhr = $_GET['idhr'];
 	$idbl = $_GET['idbl'];
 	$idbl2 = explode("/",$idhr)[0].explode("/",$idhr)[2];
+
+    $monthText = substr($idbl, 0, 3);
+    $year      = substr($idbl, 3, 4);
+    $timestamp = strtotime("1 $monthText $year");
+    // use number for the month instead of string "month name"
+    $numidbl = date("mY", $timestamp);
+
+    $date = DateTime::createFromFormat('M/d/Y', $idhr);
+    $idhr2 = $date->format('Y-m-d');
+
 	if ($idhr != ""){
 		$_SESSION['report'] = "&idhr=".$idhr;
 	} elseif ($idbl != ""){
@@ -45,7 +55,7 @@ if (!isset($_SESSION["mikhmon"])) {
 		if (strlen($idhr) > "0") {
 			if ($API->connect($iphost, $userhost, decrypt($passwdhost))) {
 				$API->write('/system/script/print', false);
-				$API->write('?source=' . $idhr . '', false);
+				$API->write('?source=' . $idhr2 . '', false);
 				$API->write('=.proplist=.id');
 				$ARREMD = $API->read();
 				for ($i = 0; $i < count($ARREMD); $i++) {
@@ -58,7 +68,7 @@ if (!isset($_SESSION["mikhmon"])) {
 		} elseif (strlen($idbl) > "0") {
 			if ($API->connect($iphost, $userhost, decrypt($passwdhost))) {
 				$API->write('/system/script/print', false);
-				$API->write('?owner=' . $idbl . '', false);
+				$API->write('?owner=' . $numidbl . '', false);
 				$API->write('=.proplist=.id');
 				$ARREMD = $API->read();
 				for ($i = 0; $i < count($ARREMD); $i++) {
@@ -81,7 +91,7 @@ if (!isset($_SESSION["mikhmon"])) {
 	if (strlen($idhr) > "0") {
 		if ($API->connect($iphost, $userhost, decrypt($passwdhost))) {
 			$getData = $API->comm("/system/script/print", array(
-				"?source" => "$idhr",
+				"?source" => "$idhr2",
 			));
 			$TotalReg = count($getData);
 		}
@@ -91,7 +101,7 @@ if (!isset($_SESSION["mikhmon"])) {
 	} elseif (strlen($idbl) > "0") {
 		if ($API->connect($iphost, $userhost, decrypt($passwdhost))) {
 			$getData = $API->comm("/system/script/print", array(
-				"?owner" => "$idbl",
+				"?owner" => "$numidbl",
 			));
 			$TotalReg = count($getData);
 		}
@@ -111,7 +121,7 @@ if (!isset($_SESSION["mikhmon"])) {
 	} elseif (strlen($idbl) > "0" ) {
 		if ($API->connect($iphost, $userhost, decrypt($passwdhost))) {
 			$getData = $API->comm("/system/script/print", array(
-				"?owner" => "$idbl",
+				"?owner" => "$numidbl",
 			));
 			$TotalReg = count($getData);
 		}

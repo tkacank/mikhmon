@@ -3,7 +3,7 @@ include_once("../core/route.php");
 include_once("view/header_html.php");
 include_once("view/menu.php");
 $thisD = date("d");
-$thisM = strtolower(date("M"));
+$thisM = date("m");
 $thisY = date("Y");
 
 if (strlen($thisD) == 1) {
@@ -12,7 +12,7 @@ if (strlen($thisD) == 1) {
   $thisD = $thisD;
 }
 
-$idhr = $thisM . "/" . $thisD . "/" . $thisY;
+$idhr = $thisY . "-" . $thisM . "-" . $thisD;
 $idbl = $thisM . $thisY;
 
 $day = $_GET['day'];
