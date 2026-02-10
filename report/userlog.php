@@ -26,11 +26,19 @@ if (!isset($_SESSION["mikhmon"])) {
 	$idbl = $_GET['idbl'];
 	$remdata = ($_POST['remdata']);
 
+    $monthText = substr($idbl, 0, 3);
+    $year      = substr($idbl, 3, 4);
+    $timestamp = strtotime("1 $monthText $year");
+    // use number for the month instead of string "month name"
+    $numidbl = date("mY", $timestamp);
 
 	if (strlen($idhr) > "0") {
+        $date = DateTime::createFromFormat('M/d/Y', $idhr);
+        $idhr2 = $date->format('Y-m-d');
+
 		if ($API->connect($iphost, $userhost, decrypt($passwdhost))) {
 			$API->write('/system/script/print', false);
-			$API->write('?=source=' . $idhr . '');
+			$API->write('?=source=' . $idhr2 . '');
 			$ARRAY = $API->read();
 			$API->disconnect();
 		}
@@ -40,7 +48,7 @@ if (!isset($_SESSION["mikhmon"])) {
 	} elseif (strlen($idbl) > "0") {
 		if ($API->connect($iphost, $userhost, decrypt($passwdhost))) {
 			$API->write('/system/script/print', false);
-			$API->write('?=owner=' . $idbl . '');
+			$API->write('?=owner=' . $numidbl . '');
 			$ARRAY = $API->read();
 			$API->disconnect();
 		}
